@@ -32,7 +32,7 @@ module.exports = () => new Promise((resolve, reject) => {
       });
     });
     if (peripheral.uuid == UUID.mac) {
-      report('info', 'bluetooth', `device ${UUID.mac} discovered`);
+      report('info', 'bluetooth', `device ${UUID.mac} discovered with RSSI of ${peripheral.rssi}`);
       noble.stopScanning();
       peripheral.connectAsync().timeout(CONST.DEFAULT_TIMEOUT)
         .then(() => {

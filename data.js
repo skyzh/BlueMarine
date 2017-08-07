@@ -1,4 +1,5 @@
 const admin = require('firebase-admin');
+const debug = require('debug')('blue:data');
 
 const _ = require('lodash');
 const report = require('./report');
@@ -65,6 +66,7 @@ module.exports = (data_stream) => new Promise((resolve, reject) => {
         for (let _t in _.range(CONST.PACKET_SIZE)) {
           _buf[_t] = yield;
         }
+        debug(_buf, _buf.toString('latin'));
         if (!process_chunk(_buf)) {
           report('error', 'serial', 'broken packet found');
           break;
