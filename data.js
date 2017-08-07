@@ -34,6 +34,13 @@ const do_report = () => {
   _.forOwn(_data, (v, k) => {
     _report[k] = _.mean(v);
     _report._length[k] = _.size(v);
+    if (_.isEmpty(v)) {
+      report('error', 'serial', `no data reported`);
+      Promise.delay(5000).then(() => {
+        process.exit(0);
+      });
+      return ;
+    }
   });
   _report.time = Date.now() / 1000;
   fb_data.push(_report);

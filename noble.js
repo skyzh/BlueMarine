@@ -25,6 +25,12 @@ module.exports = () => new Promise((resolve, reject) => {
   });
 
   noble.on('discover', peripheral => {
+    peripheral.on('disconnect', err => {
+      report('error', 'bluetooth', `disconnected`);
+      Promise.delay(5000).then(() => {
+        process.exit(0);
+      });
+    });
     if (peripheral.uuid == UUID.mac) {
       report('info', 'bluetooth', `device ${UUID.mac} discovered`);
       noble.stopScanning();
