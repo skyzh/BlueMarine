@@ -12,7 +12,7 @@ const verify = (chunk) => {
   for (let i in _.range(CONST.PACKET_SIZE - 2)) {
     _hash = (_hash + chunk[i]) % 255;
   }
-  return chunk.readUInt16LE(CONST.PACKET_SIZE - 2) == _hash + 1;
+  return chunk.readUInt8(CONST.PACKET_SIZE - 1) == _hash + 1;
 }
 
 let _data = {};
@@ -56,8 +56,8 @@ module.exports = (data_stream) => new Promise((resolve, reject) => {
       let _cnt = 0;
       while (true) {
         let d = yield;
+        if (_cnt >= CONST.PACKET_SIZE - 1 && d == 1) break;
         if (d == 0) _cnt++; else _cnt = 0;
-        if (_cnt >= CONST.PACKET_SIZE * 3) break;
       }
       report('success', 'serial', 'connection established');
       
