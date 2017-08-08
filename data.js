@@ -10,9 +10,9 @@ const fb_data = admin.database().ref('/data');
 const verify = (chunk) => {
   let _hash = 0;
   for (let i in _.range(CONST.PACKET_SIZE - 2)) {
-    _hash = (_hash + chunk[i]) % 65536;
+    _hash = (_hash + chunk[i]) % 255;
   }
-  return chunk.readUInt16LE(CONST.PACKET_SIZE - 2) == _hash;
+  return chunk.readUInt16LE(CONST.PACKET_SIZE - 2) == _hash + 1;
 }
 
 let _data = {};
@@ -57,7 +57,7 @@ module.exports = (data_stream) => new Promise((resolve, reject) => {
       while (true) {
         let d = yield;
         if (d == 0) _cnt++; else _cnt = 0;
-        if (_cnt == CONST.PACKET_SIZE * 3) break;
+        if (_cnt >= CONST.PACKET_SIZE * 3) break;
       }
       report('success', 'serial', 'connection established');
       
@@ -66,7 +66,7 @@ module.exports = (data_stream) => new Promise((resolve, reject) => {
         for (let _t in _.range(CONST.PACKET_SIZE)) {
           _buf[_t] = yield;
         }
-        debug(_buf, _buf.toString('latin'));
+        debug(_buf, _buf.toString('latin1'));
         if (!process_chunk(_buf)) {
           report('error', 'serial', 'broken packet found');
           break;
