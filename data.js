@@ -33,7 +33,7 @@ const process_chunk = (chunk) => {
 const do_report = () => {
   let _report = { _length: {} };
   _.forOwn(_data, (v, k) => {
-    _report[k] = _.mean(v);
+    _report[k] = _.size(v) > 2 ? _.mean(_.drop(_.dropRight(v.sort()))) : _.mean(v);
     _report._length[k] = _.size(v);
     if (_.isEmpty(v)) {
       report('error', 'serial', `no data reported`);
