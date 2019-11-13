@@ -1,0 +1,13 @@
+[Unit]
+Description=BlueSense
+After=network-online.target
+
+[Service]
+User=root
+Type=simple
+ExecStart=/opt/bluesense/bluesense
+WorkingDirectory=/opt/bluesense/
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
