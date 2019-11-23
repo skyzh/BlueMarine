@@ -1,3 +1,6 @@
 loguru
 prometheus_client
 bleak
+protobuf
+pytest
+pytest-asyncio

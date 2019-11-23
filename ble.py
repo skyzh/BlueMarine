@@ -6,11 +6,13 @@ from loguru import logger
 from bleak import BleakClient
 from config import BLE_CHARACTERISTIC_UUID, BLE_ADDR
 
-async def ble_service(loop: asyncio.AbstractEventLoop, 
-                      msg_queue: asyncio.Queue):
+
+async def ble_service(loop: asyncio.AbstractEventLoop,
+                      tx: asyncio.Queue,
+                      disconnected_event: asyncio.Event):
 
     async def put_to_queue(data):
-        await msg_queue.put(data)
+        await tx.put(data)
 
     def notification_handler(sender, data):
         loop.create_task(put_to_queue(data))
@@ -27,8 +29,6 @@ async def ble_service(loop: asyncio.AbstractEventLoop,
 
     logger.info("notification registered")
 
-    disconnected_event = asyncio.Event()
-
     def disconnect_callback(client):
         loop.call_soon_threadsafe(disconnected_event.set)
 
@@ -38,9 +38,9 @@ async def ble_service(loop: asyncio.AbstractEventLoop,
         await disconnected_event.wait()
     except:
         await client.stop_notify(BLE_CHARACTERISTIC_UUID, notification_handler)
-    
+
     logger.info("disconnected from device")
 
-    await msg_queue.put(None)
+    await tx.put(None)
 
     await asyncio.sleep(0.5)
