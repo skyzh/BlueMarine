@@ -4,7 +4,7 @@ from time import sleep
 from struct import unpack
 from collections import deque
 from buffer_protocol import BufferProtocol
-from push import p10, p25, update_data, serial_error_event, serial_packet_event
+from push import p10, p25, update_data, channel_serial_error_event, channel_serial_packet_event
 
 CHUNK_SIZE = 32
 
@@ -41,7 +41,7 @@ async def source_air_quality(loop: asyncio.AbstractEventLoop,
             break
 
         buffer.extend(iter(data))
-        serial_packet_event.inc(len(data))
+        channel_serial_packet_event.inc(len(data))
 
         while len(buffer) >= CHUNK_SIZE:
             chunk = peek_chunk(buffer, CHUNK_SIZE)
@@ -56,11 +56,11 @@ async def source_air_quality(loop: asyncio.AbstractEventLoop,
                 else:
                     buffer.clear()
                     logger.info("checksum fail, clear buffer")
-                    serial_error_event.inc()
+                    channel_serial_error_event.inc()
             else:
                 buffer.popleft()
                 logger.info(
                     f"wrong header, try next byte ({len(buffer)} remaining)")
-                serial_error_event.inc()
+                channel_serial_error_event.inc()
 
         msg_queue.task_done()

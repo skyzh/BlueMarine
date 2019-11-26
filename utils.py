@@ -45,3 +45,10 @@ async def channel_splitter(rx: asyncio.Queue, txs: [asyncio.Queue]):
         await txs[buf[0]].put(buf[1:])
         rx.task_done()
         
+async def info(rx: asyncio.Queue):
+    while True:
+        buf = await rx.get()
+        if buf is None:
+            return
+        logger.warning(buf)
+        rx.task_done()

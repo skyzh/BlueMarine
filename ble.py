@@ -5,13 +5,14 @@ import platform
 from loguru import logger
 from bleak import BleakClient
 from config import BLE_CHARACTERISTIC_UUID, BLE_ADDR
-
+from push import ble_packet_event
 
 async def ble_service(loop: asyncio.AbstractEventLoop,
                       tx: asyncio.Queue,
                       disconnected_event: asyncio.Event):
 
     async def put_to_queue(data):
+        ble_packet_event.inc(1)
         await tx.put(data)
 
     def notification_handler(sender, data):

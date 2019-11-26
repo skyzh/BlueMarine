@@ -1,0 +1,8 @@
+language: python
+dist: bionic
+python:
+    "3.7"
+install:
+  - pip3 install -r python/requirements.txt
+script:
+  - pytest

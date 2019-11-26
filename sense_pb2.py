@@ -20,7 +20,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   package='',
   syntax='proto3',
   serialized_options=None,
-  serialized_pb=_b('\n\x0bsense.proto\"P\n\x0bSenseUpdate\x12\r\n\x05\x66ield\x18\x01 \x01(\x05\x12\x14\n\ndata_int32\x18\x02 \x01(\x05H\x00\x12\x14\n\ndata_float\x18\x03 \x01(\x02H\x00\x42\x06\n\x04\x64\x61tab\x06proto3')
+  serialized_pb=_b('\n\x0bsense.proto\"*\n\x0bSenseUpdate\x12\r\n\x05\x66ield\x18\x01 \x01(\x05\x12\x0c\n\x04\x64\x61ta\x18\x02 \x01(\x02\x62\x06proto3')
 )
 
 
@@ -41,15 +41,8 @@ _SENSEUPDATE = _descriptor.Descriptor(
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='data_int32', full_name='SenseUpdate.data_int32', index=1,
-      number=2, type=5, cpp_type=1, label=1,
-      has_default_value=False, default_value=0,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR),
-    _descriptor.FieldDescriptor(
-      name='data_float', full_name='SenseUpdate.data_float', index=2,
-      number=3, type=2, cpp_type=6, label=1,
+      name='data', full_name='SenseUpdate.data', index=1,
+      number=2, type=2, cpp_type=6, label=1,
       has_default_value=False, default_value=float(0),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
@@ -65,20 +58,11 @@ _SENSEUPDATE = _descriptor.Descriptor(
   syntax='proto3',
   extension_ranges=[],
   oneofs=[
-    _descriptor.OneofDescriptor(
-      name='data', full_name='SenseUpdate.data',
-      index=0, containing_type=None, fields=[]),
   ],
   serialized_start=15,
-  serialized_end=95,
+  serialized_end=57,
 )
 
-_SENSEUPDATE.oneofs_by_name['data'].fields.append(
-  _SENSEUPDATE.fields_by_name['data_int32'])
-_SENSEUPDATE.fields_by_name['data_int32'].containing_oneof = _SENSEUPDATE.oneofs_by_name['data']
-_SENSEUPDATE.oneofs_by_name['data'].fields.append(
-  _SENSEUPDATE.fields_by_name['data_float'])
-_SENSEUPDATE.fields_by_name['data_float'].containing_oneof = _SENSEUPDATE.oneofs_by_name['data']
 DESCRIPTOR.message_types_by_name['SenseUpdate'] = _SENSEUPDATE
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
