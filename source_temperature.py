@@ -33,7 +33,7 @@ async def source_temperature(loop: asyncio.AbstractEventLoop,
             target = pa
         
         if target is None:
-            logger.warning(f'target {field} not found')
+            logger.warning("target %s not found" % field)
             channel_pb_error_event.inc()
         else:
             target.set(sense_update.data)
