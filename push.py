@@ -1,8 +1,9 @@
 from prometheus_client import CollectorRegistry, Gauge, Counter, push_to_gateway
 import asyncio
+from config import PUSHGATEWAY
 
+gateway = PUSHGATEWAY
 registry = CollectorRegistry()
-gateway = "localhost:9092"
 job = "air_quality_production"
 g = Gauge('job_last_success_unixtime',
           'Last time a job successfully finished', registry=registry)

@@ -60,7 +60,7 @@ async def source_air_quality(loop: asyncio.AbstractEventLoop,
             else:
                 buffer.popleft()
                 logger.info(
-                    f"wrong header, try next byte ({len(buffer)} remaining)")
+                    "wrong header, try next byte (%d remaining))" % len(buffer))
                 channel_serial_error_event.inc()
 
         msg_queue.task_done()

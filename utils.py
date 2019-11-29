@@ -40,7 +40,7 @@ async def channel_splitter(rx: asyncio.Queue, txs: [asyncio.Queue]):
             logger.warning("received packet of 0 length")
             continue
         if buf[0] >= len(txs):
-            logger.warning(f"requested #{buf[0]} out of #{len(txs)}")
+            logger.warning("requested #%d out of #%d" % (buf[0], len(txs)))
             continue
         await txs[buf[0]].put(buf[1:])
         rx.task_done()
