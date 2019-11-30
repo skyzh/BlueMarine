@@ -55,11 +55,11 @@ async def source_air_quality(loop: asyncio.AbstractEventLoop,
                     peek_chunk(buffer, CHUNK_SIZE, True)
                 else:
                     buffer.clear()
-                    logger.info("checksum fail, clear buffer")
+                    logger.warning("checksum fail, clear buffer")
                     channel_serial_error_event.inc()
             else:
                 buffer.popleft()
-                logger.info(
+                logger.warning(
                     "wrong header, try next byte (%d remaining))" % len(buffer))
                 channel_serial_error_event.inc()
 

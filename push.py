@@ -1,10 +1,10 @@
 from prometheus_client import CollectorRegistry, Gauge, Counter, push_to_gateway
 import asyncio
-from config import PUSHGATEWAY
+from config import PUSHGATEWAY, JOB
 
 gateway = PUSHGATEWAY
 registry = CollectorRegistry()
-job = "air_quality_production"
+job = JOB
 g = Gauge('job_last_success_unixtime',
           'Last time a job successfully finished', registry=registry)
 start_time = Gauge('job_start_unixtime',
@@ -22,6 +22,14 @@ hum = Gauge('hum', 'Humidity', registry=registry)
 pa = Gauge('pa', 'Pressure', registry=registry)
 channel_pb_packet_event = Counter('channel_protobuf_packet_event', "Protobuf connection packet received", registry=registry)
 channel_pb_error_event = Counter('channel_protobuf_error_event', "Protobuf connection packet errors", registry=registry)
+
+p25.set(float('nan'))
+p10.set(float('nan'))
+temp.set(float('nan'))
+hum.set(float('nan'))
+pa.set(float('nan'))
+g.set(float('nan'))
+start_time.set(float('nan'))
 
 start_time.set_to_current_time()
 push_to_gateway(gateway, job=job, registry=registry)

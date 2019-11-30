@@ -20,7 +20,13 @@ async def source_temperature(loop: asyncio.AbstractEventLoop,
             return
 
         sense_update = SenseUpdate()
-        sense_update.ParseFromString(data)
+        try:
+            sense_update.ParseFromString(data)
+        except:
+            logger.warning("error when decoding protobuf packet")
+            channel_pb_error_event.inc()
+            msg_queue.task_done()
+            continue
 
         field = sense_update.field
 
